@@ -27,7 +27,9 @@ checkResult("24")
 // How it is possible? 42 is a number and "42" a string, so it cast 42 to a string and then "42" == "42". Make sense.
 
 // But what if...
-const successor = (num) => num + 1  // it's a lambda, remember?
+function successor(num) {
+  return num + 1
+}
 console.log(successor(42))    // 43
 console.log(successor("42"))  // 421, because "42" + 1 becomes "42" + "1" that is string concatenation!
 

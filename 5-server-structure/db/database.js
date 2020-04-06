@@ -55,7 +55,7 @@ class Database {
         return this.writeDb(db)
       })
   }
-  
+
 }
 
 // This "export" says that this class can be used from outside this file.

@@ -2,7 +2,7 @@
 const fs = require('fs')
 const express = require('express')
 
-const userdbPath = "db/users.json"
+const userdbPath = "users.json"
 const port = 3000
 
 const app = express()
