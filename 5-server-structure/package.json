@@ -1,0 +1,30 @@
+{
+  "name": "bookmarks-and-notes",
+  "version": "1.0.0",
+  "description": "A custom server to store bookmarks and notes.",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daquinoaldo/nodejs-codelab.git"
+  },
+  "keywords": [
+    "Express.js",
+    "bookmarks",
+    "notes",
+    "workshop"
+  ],
+  "author": "Aldo D'Aquino",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/daquinoaldo/nodejs-codelab/issues"
+  },
+  "homepage": "https://github.com/daquinoaldo/nodejs-codelab#readme"
+}

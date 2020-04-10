@@ -1,59 +1,78 @@
 const fs = require("fs")
 const path = require("path")
 
-
-// This is a class.
-// It's not so different from an object, it have properties (fields) and methods (functions).
-// You should not add const/let before a variable, nor function before a function.
-// Everything else is the same as before. You are ready to go now!
 class Database {
 
-  // This is the constructor, it is invoked when you perform a "new Database()".
-  // Constructor can have parameter, in our case you can do "new Database('/path/to/db.json')"
+  bookmarks = []
+
   constructor(dbPath = path.join(__dirname, "./db.json")) {
     this.dbPath = dbPath
+    if (fs.existsSync(dbPath)) {
+      const json = fs.readFileSync(this.dbPath) || "{}"
+      const db = JSON.parse(json)
+      this.bookmarks = db.bookmarks || []
+    }
   }
 
-  // This function should be private.
-  // But ups, JS class are not classes yet.
-  // Yep, a JS class is actually an object. You can declare it like const Database = { ... }.
-  // The only difference is that if you write class, you'll need a new.
-  // But classes will be classes soon: there is a stage-3 proposal for private members.
-  // You can find it here: https://github.com/tc39/proposal-class-fields. It may come with ES10.
-  // For the moment, just ad a TODO.
-  // TODO: this should be private.
-  async readDb() {  // aka getUsers in lesson2
-    return new Promise((resolve, reject) => {
-      fs.readFile(this.dbPath, (err, buffer) => {
-        if (err) reject(err)
-        resolve(JSON.parse(buffer))
-      })
-    })
+  async save() {
+    fs.writeFileSync(this.dbPath, JSON.stringify({ bookmarks: this.bookmarks }))
   }
 
-  async writeDb(data) {
-    // The callback should accept no param, so just resolve.
-    return new Promise(resolve => fs.writeFile(this.dbPath, JSON.stringify(data), resolve))
+  async getBookmarks() {
+    // do a deep deep copy
+    const bookmarks = []
+    for (let bookmark of this.bookmarks)
+      if (bookmark) bookmarks.push({ ...bookmark })
+    return bookmarks
   }
 
-  getUser(username) {
-    // To access methods and variables of the same class use "this", it's a pointer to the class instance.
-    return this.readDb()
-      .then(db => db.users)
-      .then(users => users.filter(user => user.username === username))
-      .then(users => users.length ? users[0] : null)
+  async getBookmark(id) {
+    // ensure the id is valid
+    if (id >= this.bookmarks.length) return null
+    // do a deep copy
+    const bookmark = this.bookmarks[id]
+    return bookmark ? { ...bookmark } : null
   }
 
-  postUser(username, user) {
-    return this.readDb()
-      .then(db => {
-        // remove the user (if exists) and add the new one
-        db.users = db.users.filter(user => user.username !== username)
-        // add the new user
-        db.users.push(user)
-        // write back the file
-        return this.writeDb(db)
-      })
+  async addBookmark(bookmark) {
+    // do a deep copy
+    const newBookmark = { ...bookmark }
+    // set the id
+    newBookmark.id = this.bookmarks.length
+    // add the bookmark
+    this.bookmarks.push(newBookmark)
+    // write the db data to json
+    this.save()
+    // return the id of the added bookmark
+    return newBookmark.id
+  }
+
+  async updateBookmark(id, update) {
+    // ensure the id is valid
+    if (id >= this.bookmarks.length) return null
+    // get the bookmark
+    let bookmark = this.bookmarks[id]
+    // update the bookmark
+    bookmark = { ...bookmark, ...update }
+    // replace the bookmark in the array
+    this.bookmarks[id] = bookmark
+    // write the db data to json
+    this.save()
+    // return a copy of the updated bookmark
+    return { ...bookmark }
+  }
+
+  async deleteBookmark(id) {
+    // ensure the id is valid
+    if (id >= this.bookmarks.length) return null
+    // get the bookmark
+    const bookmark = this.bookmarks[id]
+    // set it to null
+    this.bookmarks[id] = null
+    // write the db data to json
+    this.save()
+    // return the deleted bookmark (no need to copy)
+    return bookmark
   }
 
 }

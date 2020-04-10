@@ -12,5 +12,17 @@
       "url": "https://sserve.dev",
       "comment": "The repository of https-localhost the Aldo's npm package. He said it's an express server, could be interesting exploring it."
     }
+  ],
+  "notes": [
+    {
+      "title": "First note",
+      "slug": "first-note",
+      "content": "This is my first note, to test if the system works."
+    },
+    {
+      "title": "TODO list",
+      "slug": "todo-list",
+      "content": "- add db functions\n- create a route\n- add the endpoint"
+    }
   ]
 }

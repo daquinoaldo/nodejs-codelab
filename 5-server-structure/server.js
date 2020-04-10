@@ -1,5 +1,5 @@
 const express = require('express')
-const userRouter = require("./router/user")
+const bookmarksRouter = require("./routes/bookmarks")
 
 
 const app = express()
@@ -16,11 +16,11 @@ app.use("/", express.static("client"))
 
 
 /* Backend */
-// The endpoint /api/user is managed by the user router, that handles all the urls
-// that starts with /api/user, like /api/user/daquinoaldo.
-app.use('/api/user', userRouter)
+// The endpoint /api/bookmarks is managed by the bookmarks router, that handles all the urls
+// that starts with /api/bookmarks, like /api/bookmarks/my-bookmark-1.
+app.use('/api/bookmarks', bookmarksRouter)
 // handle only 404 on apis, client 404 are handled in html by express
-app.get("/api/*", (req, res) => res.status(404).json({ error: "Page not found" }))
+app.get("/api/*", (req, res) => res.status(404).json({ error: "API not found" }))
 
 
 app.listen(port, () => console.log(`Server listening at http://localhost:${port}`))
