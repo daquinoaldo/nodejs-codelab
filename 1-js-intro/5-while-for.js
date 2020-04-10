@@ -21,6 +21,16 @@ while(num < 3)
 
 
 
+/* DO WHILE */
+// The same of the while, but do the body at least one time. Sometimes is useful.
+let success = false
+do {
+  success = Math.random() < 0.3 // true if the random number (from 0 to 1) is less than 0.3
+  if (success) console.log("We did!")
+  else console.log("Nope, retrying...")
+} while(!success)
+
+
 
 /* FOR */
 for (let i = 0; i < 5; ++i) {  // standard for; the one we all know
