@@ -56,7 +56,8 @@ class CardManager {
       method: "POST",
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(this.emptyElem)
-    })
+    }).then(res => res.json())
+      .then(res => res.id)
 
     // create a new card
     const card = this.newCard({ id, ...this.emptyElem })

@@ -42,7 +42,7 @@ router.post("/", async (req, res) => {
   // add the bookmark in db
   const id = await db.addBookmark(bookmark)
   console.log(`[bookmarks] New bookmark created with id ${id}.`, bookmark)
-  res.status(201).json(bookmark) // 201 = created
+  res.status(201).json({ id, ...bookmark }) // 201 = created
 })
 
 // A PUT request is meant to update resources.
