@@ -1,7 +1,7 @@
 {
   "name": "bookmarks-and-notes",
   "version": "1.0.0",
-  "description": "A custom server to store bookmarks and notes.",
+  "description": "A custom service to store bookmarks and notes.",
   "main": "server.js",
   "dependencies": {
     "express": "^4.17.1"

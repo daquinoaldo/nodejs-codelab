@@ -1,0 +1,103 @@
+/* All icon buttons */
+button.icon {
+  padding: 0;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background-color: inherit;
+  width: 24px;
+  height: 24px;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Refresh button */
+button.refresh {
+  background-image: url("/icons/refresh.svg");
+  opacity: 0.5;
+}
+
+button.refresh:hover {
+  opacity: 1;
+  transform: rotate(360deg) scale(1.2);
+}
+
+/* Add button */
+button.add {
+  background-image: url("/icons/add.svg");
+  opacity: 0.5;
+}
+
+button.add:hover {
+  opacity: 1;
+  transform: rotate(-90deg) scale(1.2);
+}
+
+/* Delete button */
+button.delete {
+  position: relative;
+}
+
+button.delete::before,
+button.delete::after {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+button.delete::before {
+  content: url("/icons/lid.svg");
+}
+
+button.delete::after {
+  content: url("/icons/bin.svg");
+}
+
+button.delete:hover::before {
+  animation: lid-up 0.5s ease 0.1s;
+}
+
+button.delete:hover::after {
+  animation: bin-shake 0.3s;
+}
+
+@keyframes bin-shake {
+  0%   { transform: rotate( 10deg); }
+  20%  { transform: rotate(-10deg); }
+  40%  { transform: rotate( 10deg); }
+  60%  { transform: rotate(-10deg); }
+  80%  { transform: rotate( 10deg); }
+  100% { transform: rotate(-10deg); }
+}
+
+@keyframes lid-up {
+  0%{ top:0; }
+  50%{ top:-12px;}
+  100%{ top:0; }
+}
+
+/* Edit button */
+button.edit {
+  background-image: url("/icons/edit.svg");
+}
+
+button.edit:hover {
+  animation: edit-shake 0.3s;
+}
+
+@keyframes edit-shake {
+  0%   { transform: rotate( 30deg); }
+  20%  { transform: rotate(-30deg); }
+  40%  { transform: rotate( 30deg); }
+  60%  { transform: rotate(-30deg); }
+  80%  { transform: rotate( 30deg); }
+  100% { transform: rotate(-30deg); }
+}
+
+/* Save button */
+button.save {
+  background-image: url("/icons/save.svg");
+}
+
+button.save:hover {
+  background-position-y: -24px;
+}

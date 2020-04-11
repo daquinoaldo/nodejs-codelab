@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Bookmarks & notes</title>
+    <meta name="description" content="A custom service to store bookmarks and notes.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/buttons.css">
+  </head>
+  <body onload="refreshData()">
+    <main id="content">
+      <button class="icon refresh" onclick="refreshData()"></button>
+      <section id="bookmarks">
+        <h1>Bookmarks</h1>
+        <button class="icon add" onclick="bookmarksManager.addCard()"></button>
+        <br><br><br>
+      </section>
+    </main>
+  </body>
+  <script defer src="js/CardManager.js"></script>
+  <script defer src="js/Bookmarks.js"></script>
+  <script defer src="js/app.js"></script>
+  </script>
+</html>
