@@ -1,9 +1,9 @@
 const express = require('express')
-const Database = require ('../db/database')
+const BookmarksDb = require ('../db/bookmarks-db')
 
 
 const router = express.Router()
-const db = new Database()
+const db = new BookmarksDb()
 
 // GET all bookmarks
 router.get("/", async (req, res) => {
