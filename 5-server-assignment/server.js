@@ -4,7 +4,9 @@ const minify = require("express-minify")
 const bookmarksRouter = require("./routes/bookmarks")
 
 
-const port = 3000
+// Use the env port if available.
+// You can override the default port (3000) running the server with "PORT=5000 npm start".
+const port = process.env.PORT || 3000
 const app = express()
 
 // Use compression (gzip) to send less data. threshold: 1 activates the compression
