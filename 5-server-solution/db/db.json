@@ -1,0 +1,28 @@
+{
+  "bookmarks": [
+    {
+      "id": 0,
+      "name": "Aldo's website",
+      "url": "https://ald.ooo",
+      "comment": "Aldo D'Aquino's portfolio. Contains Aldo's contact, in case I need some help."
+    },
+    {
+      "id": 1,
+      "name": "https-localhost",
+      "url": "https://sserve.dev",
+      "comment": "The repository of https-localhost the Aldo's npm package. He said it's an express server, could be interesting exploring it."
+    }
+  ],
+  "notes": [
+    {
+      "id": 0,
+      "title": "First note",
+      "content": "This is my first note, to test if the system works."
+    },
+    {
+      "id": 1,
+      "title": "TODO list",
+      "content": "- add db functions\n- create a route\n- add the endpoint"
+    }
+  ]
+}
