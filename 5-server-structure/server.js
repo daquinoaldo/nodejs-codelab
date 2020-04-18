@@ -1,9 +1,18 @@
 const express = require('express')
+const compression = require("compression")
+const minify = require("express-minify")
 const bookmarksRouter = require("./routes/bookmarks")
 
 
-const app = express()
 const port = 3000
+const app = express()
+
+// Use compression (gzip) to send less data. threshold: 1 activates the compression
+// when the content is at least 1 byte, i.e. always. Default is 1Kb.
+app.use(compression({ threshold: 1 }))
+// Minify minifies JS and json, reducing the content length. app.set("json spaces", 0) removes spaces from json.
+app.use(minify())
+app.set("json spaces", 0)
 
 
 /* Frontend */
