@@ -1,6 +1,8 @@
 # npm-init
 _A basic course on Node.js_
 
+![A colorful terminal-like poster](poster.png)
+
 This is the code written during the course _npm-init_, by [Aldo D'Aquino](https://ald.ooo).  
 I prepared this folder to share the code I write during the lessons with the people that have followed the codelab.
 
