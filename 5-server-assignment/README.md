@@ -60,7 +60,6 @@ I've prepared an example JSON that you can put in db.json.
 
 ### Tips
 Remember that the notes doesn't have an `url` field, and that `name` corresponds to `title` and `comment` to `content`
-- Create a new database `db/notes.js` taking example from `db/bookmarks.js`
 - Create a new router `routes/notes.js` taking example from `routes/bookmarks.js`
 - In `server.js` import the new `routes/notes.js` and use it on the endpoint `/api/notes`
 - Create a new card manager `client/js/notes.js` taking example from `client/js/bookmarks.js`

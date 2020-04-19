@@ -1,13 +1,16 @@
 const express = require('express')
-const NotesDb = require ('../db/notes-db')
+const Database = require ('../db/database')
 
 
 const router = express.Router()
-const db = new NotesDb()
+const db = new Database("notes")
+
+// Automatically parses the json body as JS object. req.body will contain that object.
+router.use(express.json())
 
 // GET all notes
 router.get("/", async (req, res) => {
-  const notes = await db.getNotes()
+  const notes = await db.getAll()
   console.debug(`[notes] Notes list accessed.`)
   res.json({ notes })
   // Pro tip: you don't need to do { notes: notes }, { notes } it's enough.
@@ -17,7 +20,7 @@ router.get("/", async (req, res) => {
 // GET a single note
 router.get("/:id", async (req, res) => {
   const id = req.params.id
-  const note = await db.getNote(id)
+  const note = await db.get(id)
 
   if (note) {
     console.debug(`[notes] Note with ${id} accessed.`)
@@ -28,9 +31,6 @@ router.get("/:id", async (req, res) => {
   }
 })
 
-// Automatically parses the json body as JS object. req.body will contain that object.
-router.use(express.json())
-
 // A POST request is meant to creates objects.
 router.post("/", async (req, res) => {
   // extract only allowed fields from body
@@ -40,9 +40,9 @@ router.post("/", async (req, res) => {
   // TODO: ensure the fields are valid!
 
   // add the note in db
-  const id = await db.addNote(note)
+  const id = await db.add(note)
   console.log(`[notes] New note created with id ${id}.`, note)
-  res.status(201).json({ id, ...note }) // 201 = created
+  res.status(201).json({ message: "Note created", id }) // 201 = created
 })
 
 // A PUT request is meant to update resources.
@@ -58,10 +58,9 @@ router.put("/:id", async (req, res) => {
   if (req.body.content) update.content = req.body.content
 
   // update the note
-  const note = await db.updateNote(id, update)
-  if (note) {
-    console.log(`[notes] Note with id ${id} updated.`, note)
-    res.json(note) // return the updated note
+  if (await db.update(id, update)) {
+    console.log(`[notes] Note with id ${id} updated.`, update)
+    res.json({ message: "Note updated.", id })
   } else {
     console.debug(`[notes] Note with ${id} not found.`)
     res.status(404).json({ error: "Note not found.", id })
@@ -71,11 +70,10 @@ router.put("/:id", async (req, res) => {
 // DELETE a specific note
 router.delete("/:id", async (req, res) => {
   const id = req.params.id
-  const note = await db.deleteNote(id)
 
-  if (note) {
+  if (await db.delete(id)) {
     console.log(`[notes] Note with ${id} deleted.`)
-    res.json(note)
+    res.json({ message: "Note deleted.", id })
   } else {
     console.debug(`[notes] Note with ${id} not found.`)
     res.status(404).json({ error: "Note not found.", id })

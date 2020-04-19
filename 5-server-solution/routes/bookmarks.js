@@ -1,13 +1,16 @@
 const express = require('express')
-const BookmarksDb = require ('../db/bookmarks-db')
+const Database = require ('../db/database')
 
 
 const router = express.Router()
-const db = new BookmarksDb()
+const db = new Database("bookmarks")
+
+// Automatically parses the json body as JS object. req.body will contain that object.
+router.use(express.json())
 
 // GET all bookmarks
 router.get("/", async (req, res) => {
-  const bookmarks = await db.getBookmarks()
+  const bookmarks = await db.getAll()
   console.debug(`[bookmarks] Bookmarks list accessed.`)
   res.json({ bookmarks })
   // Pro tip: you don't need to do { bookmarks: bookmarks }, { bookmarks } it's enough.
@@ -17,7 +20,7 @@ router.get("/", async (req, res) => {
 // GET a single bookmark
 router.get("/:id", async (req, res) => {
   const id = req.params.id
-  const bookmark = await db.getBookmark(id)
+  const bookmark = await db.get(id)
 
   if (bookmark) {
     console.debug(`[bookmarks] Bookmark with ${id} accessed.`)
@@ -28,9 +31,6 @@ router.get("/:id", async (req, res) => {
   }
 })
 
-// Automatically parses the json body as JS object. req.body will contain that object.
-router.use(express.json())
-
 // A POST request is meant to creates objects.
 router.post("/", async (req, res) => {
   // extract only allowed fields from body
@@ -40,9 +40,9 @@ router.post("/", async (req, res) => {
   // TODO: ensure the fields are valid!
 
   // add the bookmark in db
-  const id = await db.addBookmark(bookmark)
+  const id = await db.add(bookmark)
   console.log(`[bookmarks] New bookmark created with id ${id}.`, bookmark)
-  res.status(201).json({ id, ...bookmark }) // 201 = created
+  res.status(201).json({ message: "Bookmark created", id }) // 201 = created
 })
 
 // A PUT request is meant to update resources.
@@ -59,10 +59,9 @@ router.put("/:id", async (req, res) => {
   if (req.body.comment) update.comment = req.body.comment
 
   // update the bookmark
-  const bookmark = await db.updateBookmark(id, update)
-  if (bookmark) {
-    console.log(`[bookmarks] Bookmark with id ${id} updated.`, bookmark)
-    res.json(bookmark) // return the updated bookmark
+  if (await db.update(id, update)) {
+    console.log(`[bookmarks] Bookmark with id ${id} updated.`, update)
+    res.json({ message: "Bookmark updated.", id })
   } else {
     console.debug(`[bookmarks] Bookmark with ${id} not found.`)
     res.status(404).json({ error: "Bookmark not found.", id })
@@ -72,11 +71,10 @@ router.put("/:id", async (req, res) => {
 // DELETE a specific bookmark
 router.delete("/:id", async (req, res) => {
   const id = req.params.id
-  const bookmark = await db.deleteBookmark(id)
 
-  if (bookmark) {
+  if (await db.delete(id)) {
     console.log(`[bookmarks] Bookmark with ${id} deleted.`)
-    res.json(bookmark)
+    res.json({ message: "Bookmark deleted.", id })
   } else {
     console.debug(`[bookmarks] Bookmark with ${id} not found.`)
     res.status(404).json({ error: "Bookmark not found.", id })

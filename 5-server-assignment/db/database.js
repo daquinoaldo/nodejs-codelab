@@ -3,20 +3,74 @@ const path = require("path")
 
 class Database {
 
+  dbPath = path.join(__dirname, "./db.json")
   db = {}
 
-  constructor(dbPath = path.join(__dirname, "./db.json")) {
-    this.dbPath = dbPath
-    if (fs.existsSync(dbPath)) {
+  constructor(collection) {
+    // load the database if exists
+    if (fs.existsSync(this.dbPath)) {
       const json = fs.readFileSync(this.dbPath) || "{}"
       this.db = JSON.parse(json)
-      this.db.bookmarks = this.db.bookmarks || []
-      this.db.notes = this.db.notes || []
+      this.collection = this.db[collection] || []
     }
   }
 
-  async save() {
-    fs.writeFileSync(this.dbPath, JSON.stringify(this.db))
+  #save = () => fs.writeFileSync(this.dbPath, JSON.stringify(this.db))
+
+  async getAll() {
+    // do a deep deep copy
+    const objects = []
+    for (let object of this.collection)
+      if (object) objects.push({ ...object })
+    return objects
+  }
+
+  async get(id) {
+    // ensure the id is valid
+    if (id >= this.collection.length) return null
+    // do a deep copy
+    const object = this.collection[id]
+    // return the object or null
+    return object ? { ...object } : null
+  }
+
+  async add(object) {
+    // do a deep copy
+    const newObject = { ...object }
+    // set the id
+    newObject.id = this.collection.length
+    // add the new object
+    this.collection.push(newObject)
+    // write the db data to json
+    this.#save()
+    // return the id of the added object
+    return newObject.id
+  }
+
+  async update(id, update) {
+    // ensure the id is valid
+    if (id >= this.collection.length) return false
+    // get the object
+    let object = this.collection[id]
+    // update the object
+    object = { ...object, ...update }
+    // replace the object in the array
+    this.collection[id] = object
+    // write the db data to json
+    this.#save()
+    return true
+  }
+
+  async delete(id) {
+    // ensure the id is valid
+    if (id >= this.collection.length) return false
+    // if already deleted return false
+    if (!this.collection[id]) return false
+    // set it to null
+    this.collection[id] = null
+    // write the db data to json
+    this.#save()
+    return true
   }
 
 }
