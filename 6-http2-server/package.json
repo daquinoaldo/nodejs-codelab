@@ -1,0 +1,23 @@
+{
+  "name": "http2-server",
+  "version": "1.0.0",
+  "description": "An http2 demo server",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daquinoaldo/nodejs-codelab.git"
+  },
+  "author": "Aldo D'Aquino",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/daquinoaldo/nodejs-codelab/issues"
+  },
+  "homepage": "https://github.com/daquinoaldo/nodejs-codelab#readme",
+  "dependencies": {
+    "mime": "^2.4.4"
+  }
+}
