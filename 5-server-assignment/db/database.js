@@ -11,18 +11,16 @@ class Database {
     if (fs.existsSync(this.dbPath)) {
       const json = fs.readFileSync(this.dbPath) || "{}"
       this.db = JSON.parse(json)
-      this.collection = this.db[collection] || []
     }
+    this.collection = this.db[collection] || []
   }
 
   #save = () => fs.writeFileSync(this.dbPath, JSON.stringify(this.db))
 
   async getAll() {
-    // do a deep deep copy
-    const objects = []
-    for (let object of this.collection)
-      if (object) objects.push({ ...object })
-    return objects
+    // remove the nul objects: !obj returns true for null objects,
+    // hence !!obj returns false for null objects
+    return this.collection.filter(obj => !!obj)
   }
 
   async get(id) {
@@ -52,6 +50,8 @@ class Database {
     if (id >= this.collection.length) return false
     // get the object
     let object = this.collection[id]
+    // ensure the object is not deleted
+    if (!object) return false
     // update the object
     object = { ...object, ...update }
     // replace the object in the array

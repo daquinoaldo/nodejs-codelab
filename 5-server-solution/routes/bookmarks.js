@@ -23,10 +23,10 @@ router.get("/:id", async (req, res) => {
   const bookmark = await db.get(id)
 
   if (bookmark) {
-    console.debug(`[bookmarks] Bookmark with ${id} accessed.`)
+    console.debug(`[bookmarks] Bookmark with id ${id} accessed.`)
     res.json(bookmark)
   } else {
-    console.debug(`[bookmarks] Bookmark with ${id} not found.`)
+    console.debug(`[bookmarks] Bookmark with id ${id} not found.`)
     res.status(404).json({ error: "Bookmark not found.", id })
   }
 })
@@ -63,7 +63,7 @@ router.put("/:id", async (req, res) => {
     console.log(`[bookmarks] Bookmark with id ${id} updated.`, update)
     res.json({ message: "Bookmark updated.", id })
   } else {
-    console.debug(`[bookmarks] Bookmark with ${id} not found.`)
+    console.debug(`[bookmarks] Bookmark with id ${id} not found.`)
     res.status(404).json({ error: "Bookmark not found.", id })
   }
 })
@@ -73,10 +73,10 @@ router.delete("/:id", async (req, res) => {
   const id = req.params.id
 
   if (await db.delete(id)) {
-    console.log(`[bookmarks] Bookmark with ${id} deleted.`)
+    console.log(`[bookmarks] Bookmark with id ${id} deleted.`)
     res.json({ message: "Bookmark deleted.", id })
   } else {
-    console.debug(`[bookmarks] Bookmark with ${id} not found.`)
+    console.debug(`[bookmarks] Bookmark with id ${id} not found.`)
     res.status(404).json({ error: "Bookmark not found.", id })
   }
 })

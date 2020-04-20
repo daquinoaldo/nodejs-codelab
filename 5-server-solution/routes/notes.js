@@ -23,10 +23,10 @@ router.get("/:id", async (req, res) => {
   const note = await db.get(id)
 
   if (note) {
-    console.debug(`[notes] Note with ${id} accessed.`)
+    console.debug(`[notes] Note with id ${id} accessed.`)
     res.json(note)
   } else {
-    console.debug(`[notes] Note with ${id} not found.`)
+    console.debug(`[notes] Note with id ${id} not found.`)
     res.status(404).json({ error: "Note not found.", id })
   }
 })
@@ -62,7 +62,7 @@ router.put("/:id", async (req, res) => {
     console.log(`[notes] Note with id ${id} updated.`, update)
     res.json({ message: "Note updated.", id })
   } else {
-    console.debug(`[notes] Note with ${id} not found.`)
+    console.debug(`[notes] Note with id ${id} not found.`)
     res.status(404).json({ error: "Note not found.", id })
   }
 })
@@ -72,10 +72,10 @@ router.delete("/:id", async (req, res) => {
   const id = req.params.id
 
   if (await db.delete(id)) {
-    console.log(`[notes] Note with ${id} deleted.`)
+    console.log(`[notes] Note with id ${id} deleted.`)
     res.json({ message: "Note deleted.", id })
   } else {
-    console.debug(`[notes] Note with ${id} not found.`)
+    console.debug(`[notes] Note with id ${id} not found.`)
     res.status(404).json({ error: "Note not found.", id })
   }
 })
